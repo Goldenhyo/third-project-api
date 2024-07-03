@@ -1,11 +1,16 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.7'
+    id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.cicd'
 version = '0.0.1-SNAPSHOT'
+
+bootJar {
+    archiveBaseName = 'todomateApi'
+    archiveFileName = 'todomateApi.jar'
+}
 
 java {
     toolchain {
@@ -22,6 +27,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 쿼리 파라미터 로그남기기
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
