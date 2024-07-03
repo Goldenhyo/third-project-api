@@ -22,7 +22,7 @@ logging:
     org.springframework.security.web: trace  # 시큐리티 관련 로그 남기기
 
 server:
-  port: 8090
+  port: 8099
   servlet:
     session:
       tracking-modes: cookie
