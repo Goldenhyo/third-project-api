@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailsService implements UserDetailsService, UserDetailsPasswordService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -27,27 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService, UserDetails
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 이메일로 회원 조회하고 MemberDTO 리턴, 일치하는 이메일 없으면 예외 발생 시키기
         log.info("********** CustomUserDetailsService - loadUserByUsername - username:{}", username);
-        Optional<Member> findMember = memberRepository.findMemberByEmail(username);
-        if (findMember.isEmpty()) {
-            throw new UsernameNotFoundException("No Match Email");
-        } else {
-            Member member = findMember.get();
-            log.info("********** CustomUserDetailsService - loadUserByUsername - member:{}", member);
-            MemberDTO memberDTO
-                    = new MemberDTO(member.getEmail(), member.getPassword(), member.getName());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    memberDTO,
-                    memberDTO.getPassword(),
-                    memberDTO.getAuthorities()
-            );
-            log.info("********** CustomUserDetailsService - loadUserByUsername - authentication:{}", authentication);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return memberDTO;
+        Member member = memberRepository.findMemberByEmail(username).orElseThrow();
+        if (member == null) {
+            throw  new UsernameNotFoundException("No Match Email");
         }
-    }
-
-    @Override
-    public UserDetails updatePassword(UserDetails user, String newPassword) {
-        return null;
+        MemberDTO memberDTO
+                = new MemberDTO(member.getEmail(), member.getPassword(), member.getName() );
+        return memberDTO;
     }
 }

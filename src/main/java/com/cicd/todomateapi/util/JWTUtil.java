@@ -12,8 +12,8 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-@Component
 @Slf4j
+@Component
 public class JWTUtil {
 
     @Value("${jwt.key}")
@@ -56,52 +56,4 @@ public class JWTUtil {
         }
         return claim;
     }
-
-//    // 특정 사용자에 대한 토큰 생성
-//    public String generateToken(UserDetails userDetails) {
-//        Map<String, Object> claims = new HashMap<>();
-//        return createToken(claims, userDetails.getUsername());
-//    }
-//
-//    // 토큰 생성
-//    private String createToken(Map<String, Object> claims, String subject) {
-//        SecretKey secretKey = Keys.hmacShaKeyFor(jwtKey.getBytes(StandardCharsets.UTF_8));
-//        log.info("---------- secretKey:{}", secretKey);
-//        String jwt = Jwts.builder()
-//                .setHeader(Map.of("typ", "JWT"))
-//                .setClaims(claims)
-//                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
-//                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(10).toInstant()))
-//                .signWith(secretKey)
-//                .compact();
-//        log.info("---------- jwt:{}", jwt);
-//        return jwt;
-//    }
-//
-//    // 토큰에서 username 추출
-//    public String extractUsername(String token) {
-//        return extractClaim(token, Claims::getSubject);
-//    }
-//
-//    // 토큰 만료 여부 확인
-//    private Boolean isTokenExpired(String token) {
-//        return extractExpiration(token).before(new Date());
-//    }
-//
-//    // 토큰에서 claim 추출
-//    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-//        final Claims claims = extractAllClaims(token);
-//        return claimsResolver.apply(claims);
-//    }
-//
-//    // 토큰에서 모든 claim 추출
-//    private Claims extractAllClaims(String token) {
-//        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-//    }
-//
-//    // 토큰 유효성 검사
-//    public Boolean validateToken(String token, UserDetails userDetails) {
-//        final String username = extractUsername(token);
-//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-//    }
 }
