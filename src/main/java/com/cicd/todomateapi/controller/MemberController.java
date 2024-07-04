@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -21,7 +19,7 @@ public class MemberController {
 
     @PostMapping("")
     public String register(@RequestBody MemberForm memberForm) {
-        log.info("********** MemberController register memberForm:", memberForm);
+        log.info("********** MemberController register memberForm:{}", memberForm);
         String result = memberService.save(memberForm);
         if (result.equals("success")) {
             return memberForm.getName();
