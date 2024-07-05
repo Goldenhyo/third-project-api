@@ -33,10 +33,10 @@ public class TaskController {
         return Map.of("RESULT", task);
     }
 
-    @PutMapping("/update")
-    public Map<String, String> updateTask(@RequestBody TaskDTO taskDTO){
-        taskService.update(taskDTO);
-        log.info("************* TaskController.java / method name : updateTask / taskDTO : {}", taskDTO);
+    @PutMapping("/update/{tid}/{value}")
+    public Map<String, String> updateTask(@PathVariable Long tid, @PathVariable String value){
+        taskService.update(tid, value);
+        log.info("************* TaskController.java / method name : updateTask");
         return Map.of("RESULT", "SUCCESS");
     }
 
@@ -67,5 +67,12 @@ public class TaskController {
     public Map<String, String> taskFinishedState(@PathVariable Long tid){
         taskService.taskFinishedState(tid);
         return Map.of("RESULT", "SUCCESS");
+    }
+
+    @GetMapping("/numoftask/{mid}/{year}/{month}")
+    public Map<String, List<Integer>> getNumOfTask(@PathVariable Long mid, @PathVariable int year, @PathVariable int month){
+        LocalDate givenDate = LocalDate.of(year, month, 1);
+        List<Integer> numOfTask = taskService.numOfTask(mid, givenDate);
+        return Map.of("RESULT", numOfTask);
     }
 }

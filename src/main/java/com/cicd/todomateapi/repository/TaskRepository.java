@@ -14,4 +14,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query(value = "SELECT * FROM Task WHERE date = :givenDate AND type = 1 ORDER BY tid DESC", nativeQuery = true)
     List<Task> getRoutineTaskListByDate(@Param("givenDate")LocalDate givenDate);
+
+    @Query(value = "SELECT * FROM Task WHERE mid = :mid AND YEAR(date) = YEAR(:givenDate) AND MONTH(date) = MONTH(:givenDate)", nativeQuery = true)
+    List<Task> getNumOfTask(@Param("mid") Long mid, @Param("givenDate") LocalDate givenDate);
+
 }
