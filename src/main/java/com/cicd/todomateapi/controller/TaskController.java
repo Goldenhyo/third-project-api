@@ -2,6 +2,7 @@ package com.cicd.todomateapi.controller;
 
 import com.cicd.todomateapi.domain.Task;
 import com.cicd.todomateapi.dto.TaskDTO;
+import com.cicd.todomateapi.dto.TaskResponseDTO;
 import com.cicd.todomateapi.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,11 @@ public class TaskController {
     }
 
     @GetMapping("/{tid}")
-    public Map<String, Task> getTask(@PathVariable Long tid){
+    public Map<String, TaskResponseDTO> getTask(@PathVariable Long tid){
         Task task = taskService.get(tid);
         log.info("************* TaskController.java / method name : getTask / task : {}", task);
-        return Map.of("RESULT", task);
+        TaskResponseDTO taskDTO = task.changeToDTO();
+        return Map.of("RESULT", taskDTO);
     }
 
     @PutMapping("/update/{tid}/{value}")
@@ -48,19 +50,26 @@ public class TaskController {
     }
 
     @GetMapping("/normal/{year}/{month}/{date}")
-    public Map<String, List<Task>> getNormalTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
+    public Map<String, List<TaskResponseDTO>> getNormalTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
         LocalDate givenDate = LocalDate.of(year, month, date);
         List<Task> taskList = taskService.getNormalTaskList(givenDate);
         log.info("************* TaskController.java / method name : getTaskList / taskList : {}", taskList);
-        return Map.of("RESULT", taskList);
+        List<TaskResponseDTO> taskDTOList = taskList.stream()
+                .map(Task::changeToDTO)
+                .toList();
+        return Map.of("RESULT", taskDTOList);
     }
 
     @GetMapping("/routine/{year}/{month}/{date}")
-    public Map<String, List<Task>> getRoutineTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
+    public Map<String, List<TaskResponseDTO>> getRoutineTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
         LocalDate givenDate = LocalDate.of(year, month, date);
         List<Task> taskList = taskService.getRoutineTaskList(givenDate);
         log.info("************* TaskController.java / method name : getTaskList / taskList : {}", taskList);
-        return Map.of("RESULT", taskList);
+        List<TaskResponseDTO> taskDTOList = taskList.stream()
+                .map(Task::changeToDTO)
+                .toList();
+
+        return Map.of("RESULT", taskDTOList);
     }
 
     @PostMapping("/{tid}")
