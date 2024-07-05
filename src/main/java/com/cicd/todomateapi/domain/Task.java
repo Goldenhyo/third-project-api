@@ -1,6 +1,7 @@
 package com.cicd.todomateapi.domain;
 
 import com.cicd.todomateapi.dto.TaskDTO;
+import com.cicd.todomateapi.dto.TaskResponseDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,17 @@ public class Task {
         this.date = taskDTO.getDate();
         this.mid = taskDTO.getMid();
         return this;
+    }
+
+    public TaskResponseDTO changeToDTO(){
+        TaskResponseDTO taskResponseDTO = new TaskResponseDTO();
+        taskResponseDTO.setTid(this.getTid());
+        taskResponseDTO.setDetail(this.getDetail());
+        taskResponseDTO.setFinished(this.isFinished());
+        taskResponseDTO.setType(this.getType());
+        taskResponseDTO.setDate(this.getDate());
+        taskResponseDTO.setMid(this.getMid());
+        return taskResponseDTO;
     }
 
     public Task modify(String value) {
