@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +31,10 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public void update(TaskDTO taskDTO) {
-        Task task = new Task().changeToTask(taskDTO);
-        taskRepository.save(task);
+    public void update(Long tid, String value) {
+        Task originTask = taskRepository.findById(tid).orElse(null);
+        Task modifiedTask = originTask.modify(value);
+        taskRepository.save(modifiedTask);
     }
 
     @Override
@@ -55,5 +59,26 @@ public class TaskServiceImpl implements TaskService{
         Task finishChange = task.finish();
         taskRepository.save(finishChange);
 
+    }
+
+    @Override
+    public List<Integer> numOfTask(Long mid, LocalDate givenDate) {
+        List<Task> taskList = taskRepository.getNumOfTask(mid, givenDate);
+        int[] calcArray = new int[givenDate.lengthOfMonth()];
+        int[] finishedArray = new int[givenDate.lengthOfMonth()];
+        for (Task task : taskList) {
+            int day = task.getDate().getDayOfMonth();
+            if (task.isFinished()) {
+                finishedArray[day]++;
+            } else {
+                calcArray[day]++;
+            }
+        }
+        for(int i = 0; i< finishedArray.length; i++){
+            if(finishedArray[i] != 0 && calcArray[i] == 0){
+                calcArray[i] = -1;
+            }
+        }
+        return Arrays.stream(calcArray).boxed().toList();
     }
 }

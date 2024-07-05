@@ -37,6 +37,11 @@ public class Task {
         return this;
     }
 
+    public Task modify(String value) {
+        this.detail = value;
+        return this;
+    }
+
     public Task finish(){
         this.finished = !finished;
         return this;
