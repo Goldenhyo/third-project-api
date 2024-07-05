@@ -1,6 +1,5 @@
 package com.cicd.todomateapi.dto;
 
-import com.cicd.todomateapi.domain.TaskType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
