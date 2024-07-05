@@ -55,14 +55,6 @@ public class TaskController {
         return Map.of("RESULT", taskList);
     }
 
-    @GetMapping("/routine/{year}/{month}/{date}")
-    public Map<String, List<Task>> getRoutineTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
-        LocalDate givenDate = LocalDate.of(year, month, date);
-        List<Task> taskList = taskService.getRoutineTaskList(givenDate);
-        log.info("************* TaskController.java / method name : getTaskList / taskList : {}", taskList);
-        return Map.of("RESULT", taskList);
-    }
-
     @PostMapping("/{tid}")
     public Map<String, String> taskFinishedState(@PathVariable Long tid){
         taskService.taskFinishedState(tid);
