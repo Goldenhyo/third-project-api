@@ -1,7 +1,9 @@
 package com.cicd.todomateapi.service;
 
+import com.cicd.todomateapi.domain.DailyRoutine;
 import com.cicd.todomateapi.domain.Task;
 import com.cicd.todomateapi.dto.TaskDTO;
+import com.cicd.todomateapi.repository.DailyRoutineRepository;
 import com.cicd.todomateapi.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class TaskServiceImpl implements TaskService{
 
     private final TaskRepository taskRepository;
+    private final DailyRoutineRepository dailyRoutineRepository;
 
     @Override
     public void add(TaskDTO taskDTO) {
@@ -64,11 +67,25 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public List<Integer> numOfTask(Long mid, LocalDate givenDate) {
         List<Task> taskList = taskRepository.getNumOfTask(mid, givenDate);
+        List<DailyRoutine> routineList = dailyRoutineRepository.getNumOfDailyRoutine(mid, givenDate);
         int[] calcArray = new int[givenDate.lengthOfMonth()];
         int[] finishedArray = new int[givenDate.lengthOfMonth()];
         for (Task task : taskList) {
             int day = task.getDate().getDayOfMonth();
             if (task.isFinished()) {
+                finishedArray[day]++;
+            } else {
+                calcArray[day]++;
+            }
+        }
+        for(int i = 0; i< finishedArray.length; i++){
+            if(finishedArray[i] != 0 && calcArray[i] == 0){
+                calcArray[i] = -1;
+            }
+        }
+        for (DailyRoutine routine : routineList) {
+            int day = routine.getDate().getDayOfMonth() - 1;
+            if (routine.isFinished()) {
                 finishedArray[day]++;
             } else {
                 calcArray[day]++;

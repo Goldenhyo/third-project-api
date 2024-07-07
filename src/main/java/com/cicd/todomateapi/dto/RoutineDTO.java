@@ -13,12 +13,14 @@ import java.util.List;
 public class RoutineDTO {
     private Long rid; // routineId
     private Long mid; // memberId
+    private Long drId;
     private String detail;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date;
     @Builder.Default
-    List<DailyRoutineDTO> dailyList = new ArrayList<>();
+    private boolean finished = false;
 }
