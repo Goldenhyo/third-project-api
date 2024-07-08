@@ -63,4 +63,9 @@ public class RoutineController {
         return l > 0 ? "success" : "fail";
     }
 
+    @DeleteMapping("/{rid}")
+    public String deleteRoutine(@PathVariable("rid") Long rid) {
+        routineService.deleteRoutine(rid);
+        return "success";
+    }
 }

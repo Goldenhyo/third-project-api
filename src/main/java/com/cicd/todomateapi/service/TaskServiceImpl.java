@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService{
             }
         }
         for (DailyRoutine routine : routineList) {
-            int day = routine.getDate().getDayOfMonth() - 1;
+            int day = routine.getDate().getDayOfMonth();
             if (routine.isFinished()) {
                 finishedArray[day]++;
             } else {
