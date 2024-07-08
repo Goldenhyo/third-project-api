@@ -1,7 +1,6 @@
 package com.cicd.todomateapi.security.handler;
 
 import com.cicd.todomateapi.dto.MemberDTO;
-import com.cicd.todomateapi.security.AuthenticationService;
 import com.cicd.todomateapi.util.JWTUtil;
 import com.google.gson.Gson;
 import lombok.NoArgsConstructor;
