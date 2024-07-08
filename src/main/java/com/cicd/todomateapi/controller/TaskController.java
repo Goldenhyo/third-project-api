@@ -49,26 +49,14 @@ public class TaskController {
         return Map.of("RESULT", "SUCCESS");
     }
 
-    @GetMapping("/normal/{year}/{month}/{date}")
-    public Map<String, List<TaskResponseDTO>> getNormalTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
+    @GetMapping("/{mid}/normal/{year}/{month}/{date}")
+    public Map<String, List<TaskResponseDTO>> getNormalTaskList(@PathVariable Long mid, @PathVariable int year, @PathVariable int month, @PathVariable int date){
         LocalDate givenDate = LocalDate.of(year, month, date);
-        List<Task> taskList = taskService.getNormalTaskList(givenDate);
+        List<Task> taskList = taskService.getNormalTaskList(mid, givenDate);
         log.info("************* TaskController.java / method name : getTaskList / taskList : {}", taskList);
         List<TaskResponseDTO> taskDTOList = taskList.stream()
                 .map(Task::changeToDTO)
                 .toList();
-        return Map.of("RESULT", taskDTOList);
-    }
-
-    @GetMapping("/routine/{year}/{month}/{date}")
-    public Map<String, List<TaskResponseDTO>> getRoutineTaskList(@PathVariable int year, @PathVariable int month, @PathVariable int date){
-        LocalDate givenDate = LocalDate.of(year, month, date);
-        List<Task> taskList = taskService.getRoutineTaskList(givenDate);
-        log.info("************* TaskController.java / method name : getTaskList / taskList : {}", taskList);
-        List<TaskResponseDTO> taskDTOList = taskList.stream()
-                .map(Task::changeToDTO)
-                .toList();
-
         return Map.of("RESULT", taskDTOList);
     }
 
@@ -78,7 +66,7 @@ public class TaskController {
         return Map.of("RESULT", "SUCCESS");
     }
 
-    @GetMapping("/numoftask/{mid}/{year}/{month}")
+    @GetMapping("/{mid}/numoftask/{year}/{month}")
     public Map<String, List<Integer>> getNumOfTask(@PathVariable Long mid, @PathVariable int year, @PathVariable int month){
         LocalDate givenDate = LocalDate.of(year, month, 1);
         List<Integer> numOfTask = taskService.numOfTask(mid, givenDate);

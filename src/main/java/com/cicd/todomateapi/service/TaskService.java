@@ -12,8 +12,7 @@ public interface TaskService {
     Task get(Long tid);
     void update(Long tid, String value);
     void delete(Long tid);
-    List<Task> getNormalTaskList(LocalDate givenDate);
-    List<Task> getRoutineTaskList(LocalDate givenDate);
+    List<Task> getNormalTaskList(Long mid, LocalDate givenDate);
     void taskFinishedState(Long tid);
     List<Integer> numOfTask(Long mid, LocalDate givenDate);
 }

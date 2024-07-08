@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    @Query(value = "SELECT * FROM Task WHERE date = :givenDate AND type = 0 ORDER BY tid DESC", nativeQuery = true)
-    List<Task> getNormalTaskListByDate(@Param("givenDate")LocalDate givenDate);
+    @Query(value = "SELECT * FROM Task WHERE date = :givenDate AND type = 0 AND mid=:mid ORDER BY tid DESC", nativeQuery = true)
+    List<Task> getNormalTaskListByDate(@Param("givenDate")LocalDate givenDate, @Param("mid")Long mid);
 
     @Query(value = "SELECT * FROM Task WHERE date = :givenDate AND type = 1 ORDER BY tid DESC", nativeQuery = true)
     List<Task> getRoutineTaskListByDate(@Param("givenDate")LocalDate givenDate);

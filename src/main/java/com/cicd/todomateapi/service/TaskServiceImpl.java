@@ -43,13 +43,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public List<Task> getNormalTaskList(LocalDate givenDate) {
-        return taskRepository.getNormalTaskListByDate(givenDate);
-    }
-
-    @Override
-    public List<Task> getRoutineTaskList(LocalDate givenDate) {
-        return taskRepository.getRoutineTaskListByDate(givenDate);
+    public List<Task> getNormalTaskList(Long mid, LocalDate givenDate) {
+        return taskRepository.getNormalTaskListByDate(givenDate, mid);
     }
 
     @Override
