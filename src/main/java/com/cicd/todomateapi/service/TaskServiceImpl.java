@@ -63,8 +63,8 @@ public class TaskServiceImpl implements TaskService{
     public List<Integer> numOfTask(Long mid, LocalDate givenDate) {
         List<Task> taskList = taskRepository.getNumOfTask(mid, givenDate);
         List<DailyRoutine> routineList = dailyRoutineRepository.getNumOfDailyRoutine(mid, givenDate);
-        int[] calcArray = new int[givenDate.lengthOfMonth()];
-        int[] finishedArray = new int[givenDate.lengthOfMonth()];
+        int[] calcArray = new int[givenDate.lengthOfMonth()+1];
+        int[] finishedArray = new int[givenDate.lengthOfMonth()+1];
         for (Task task : taskList) {
             int day = task.getDate().getDayOfMonth();
             if (task.isFinished()) {
