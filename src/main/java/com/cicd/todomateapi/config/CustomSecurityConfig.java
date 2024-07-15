@@ -37,15 +37,6 @@ public class CustomSecurityConfig {
                 sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         // csrf 비활성화
         http.csrf(csrf -> csrf.disable());
-        // 로그인 설정
-        http.formLogin(login -> {
-            // 로그인 경로
-            login.loginPage("/api/login");
-            // 로그인 성공시 실행될 로직 클래스
-            login.successHandler(new CustomLoginSuccessHandler(jwtUtil()));
-            // 로그인 실패시
-            login.failureHandler(new CustomLoginFailureHandler());
-        });
         // JWT 체크 필터 추가
         http.addFilterBefore(new JWTCheckFilter(jwtUtil()), BasicAuthenticationFilter.class);
         return http.build();
