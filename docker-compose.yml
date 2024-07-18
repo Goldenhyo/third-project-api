@@ -30,5 +30,15 @@ services:
     networks:
       - todomate_network
 
+  react:
+    container_name: todomate
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - "3001:80"
+    networks:
+      - todomate_network
+
 networks:
   todomate_network:
