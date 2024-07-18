@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-        REACT_TRIGGER_URL = 'http://3.36.84.228:8081/job/todomate/build?token=react-trigger-token'
+        REACT_TRIGGER_URL = 'http://3.36.84.228:8080/job/todomate/build?token=react-trigger-token'
     }
     stages {
         stage('Checkout') {
