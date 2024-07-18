@@ -1,12 +1,32 @@
-version: '3'
+version: "2"
+
 services:
-  react:
-    container_name: befreejenkinsfront
+  database:
+    container_name: todomatedb
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: todomate
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3307:3307"
+    networks:
+      - test_network
+
+  web:
+    container_name: todomateapi
     build:
       context: ./
       dockerfile: dockerfile
     ports:
-      - "3001:80"
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://todomatedb:3307/todomate?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF8&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "1234"
+    depends_on:
+      - database
     networks:
       - test_network
 
