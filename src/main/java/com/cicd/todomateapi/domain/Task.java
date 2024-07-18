@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Task {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tid;
     private String detail;
     @Builder.Default

@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Routine {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rid; // routineId
     private Long mid; // memberId
     private String detail;
