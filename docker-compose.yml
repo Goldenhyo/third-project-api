@@ -20,7 +20,7 @@ services:
       context: ./
       dockerfile: dockerfile
     ports:
-      - "8085:8085"
+      - "8099:8099"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://todomatedb:3307/todomate?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF8&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
