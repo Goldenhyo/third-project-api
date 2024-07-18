@@ -2,6 +2,9 @@ pipeline {
     agent any 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        REACT_TRIGGER_URL = 'http://your-jenkins-url/job/react-project/build'
+        API_TOKEN = 'your-api-token'
+        USERNAME = 'your-jenkins-username'
     }
     stages {
         stage('Checkout') {
@@ -10,18 +13,17 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Goldenhyo/todomateApi.git'
             }
         }
-        stage('Build') {
-            steps {
-                // Docker 이미지를 빌드
-                script {
-                    docker.build("todomateapi", "-f dockerfile .")
-                }
-            }
-        }
-        stage('Deploy') {
+        stage('Build & Deploy') {
             steps {
                 // Docker Compose를 사용하여 배포
-                sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
+                sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d --build"
+            }
+        }
+        stage('Trigger React Build') {
+            steps {
+                script {
+                    sh "curl -X POST ${REACT_TRIGGER_URL} --user ${USERNAME}:${API_TOKEN}"
+                }
             }
         }
     }
