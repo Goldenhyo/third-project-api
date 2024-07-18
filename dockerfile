@@ -1,16 +1,13 @@
-FROM node:20.15 AS builder
-RUN mkdir /app
-WORKDIR /app
-COPY package.json .
-RUN npm install --force
+FROM eclipse-temurin:17-jdk-jammy AS builder
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar
 
-COPY ./ ./
-RUN npm run build
-FROM nginx:latest
-RUN rm /etc/nginx/conf.d/default.conf
-RUN rm -rf /etc/nginx/conf.d/*
-COPY ./nginx.conf /etc/nginx/conf.d/
-
-COPY --from=builder app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM eclipse-temurin:17-jdk-jammy
+COPY --from=builder build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+VOLUME /tmp
