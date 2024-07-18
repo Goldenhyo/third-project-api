@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-        REACT_TRIGGER_URL = 'http://http://3.36.84.228:8080/job/todomate/build'
+        REACT_TRIGGER_URL = 'http://3.36.84.228:8080/job/todomate/build'
         API_TOKEN = 'your-api-token'
         USERNAME = 'your-jenkins-username'
     }
