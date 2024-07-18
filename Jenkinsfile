@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-        REACT_TRIGGER_URL = 'http://your-jenkins-url/job/react-project/build'
+        REACT_TRIGGER_URL = 'http://http://3.36.84.228:8080/job/todomate/build'
         API_TOKEN = 'your-api-token'
         USERNAME = 'your-jenkins-username'
     }
@@ -22,7 +22,7 @@ pipeline {
         stage('Trigger React Build') {
             steps {
                 script {
-                    sh "curl -X POST ${REACT_TRIGGER_URL} --user ${USERNAME}:${API_TOKEN}"
+                    sh "curl -X POST ${REACT_TRIGGER_URL}"
                 }
             }
         }
