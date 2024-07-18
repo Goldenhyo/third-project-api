@@ -12,7 +12,7 @@ services:
     ports:
       - "3307:3307"
     networks:
-      - test_network
+      - todomate_network
 
   web:
     container_name: todomateapi
@@ -28,7 +28,7 @@ services:
     depends_on:
       - database
     networks:
-      - test_network
+      - todomate_network
 
 networks:
-  test_network:
+  todomate_network:
