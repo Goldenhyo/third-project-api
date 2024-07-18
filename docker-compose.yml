@@ -1,0 +1,14 @@
+version: '3'
+services:
+  react:
+    container_name: befreejenkinsfront
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - "3001:80"
+    networks:
+      - test_network
+
+networks:
+  test_network:
