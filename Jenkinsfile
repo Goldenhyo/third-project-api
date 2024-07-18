@@ -3,6 +3,8 @@ pipeline {
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
         REACT_TRIGGER_URL = 'http://3.36.84.228:8080/job/todomate/build'
+        API_TOKEN = 'todomate'  // 생성한 API 토큰
+        USERNAME = 'jeha'
     }
     stages {
         stage('Checkout') {
@@ -20,7 +22,7 @@ pipeline {
         stage('Trigger React Build') {
             steps {
                 script {
-                    sh "curl -X POST ${REACT_TRIGGER_URL}"
+                    sh "curl -X POST ${REACT_TRIGGER_URL} --user ${USERNAME}:${API_TOKEN}"
                 }
             }
         }
