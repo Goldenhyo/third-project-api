@@ -18,14 +18,4 @@ public class Member {
     private String email;
     private String password;
     private String name;
-    private boolean deleted;
-
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
-    public void changeName(String name) {
-        this.name = name;
-    }
-
 }

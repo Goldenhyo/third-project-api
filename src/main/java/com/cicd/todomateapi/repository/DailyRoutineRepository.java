@@ -15,6 +15,4 @@ public interface DailyRoutineRepository extends JpaRepository<DailyRoutine, Long
 
     @Query(value = "SELECT dr FROM DailyRoutine dr JOIN dr.routine r WHERE r.mid = :mid AND YEAR(dr.date) = YEAR(:givenDate) AND MONTH(dr.date) = MONTH(:givenDate)")
     List<DailyRoutine> getNumOfDailyRoutine(@Param("mid") Long mid, @Param("givenDate") LocalDate givenDate);
-//    @Query(value = "SELECT * FROM daily_routine dr INNER JOIN routine r ON dr.routine_id = r.rid WHERE r.mid = :mid AND YEAR(dr.date) = YEAR(:givenDate) AND MONTH(dr.date) = MONTH(:givenDate)", nativeQuery = true)
-//    List<DailyRoutine> getNumOfDailyRoutine(@Param("mid") Long mid, @Param("givenDate") LocalDate givenDate);
 }

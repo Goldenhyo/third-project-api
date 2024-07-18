@@ -7,9 +7,9 @@ import com.cicd.todomateapi.dto.MemberForm;
 public interface MemberService {
     Member findById(Long mid);
 
+    MemberDTO getKakaoMember(String accessToken);
+
     String save(MemberForm memberForm);
 
-    String modify(MemberForm memberForm);
-
-    String delete();
+    String delete(Long mid);
 }
