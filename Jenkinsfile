@@ -26,10 +26,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            // 빌드 후 클린업 작업
-            cleanWs()
-        }
-    }
 }
