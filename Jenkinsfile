@@ -2,9 +2,9 @@ pipeline {
     agent any 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-        REACT_TRIGGER_URL = 'http://3.36.84.228:8080/job/todomate/build'
-        API_TOKEN = 'todomate'  // 생성한 API 토큰
-        USERNAME = 'jeha'
+        REACT_TRIGGER_URL = 'http://13.125.110.108:8080/job/todomate/build?token=react-trigger-token'
+        API_TOKEN = '11c3d1ded0ce342791409b8dac3f09b87c'  // 생성한 API 토큰
+        USERNAME = 'hj'
     }
     stages {
         stage('Checkout') {
