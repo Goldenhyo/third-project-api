@@ -1,7 +1,7 @@
 # DB setting
 spring:
   datasource:
-    url: jdbc:mysql://todomatedb:3306/todomate?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF-8&useSSL=false
+    url: jdbc:mysql://todomatedb:3306/todomate?useUnicode=true&characterEncoding=UTF-8&characterSetResult=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: 1234
 
