@@ -16,7 +16,7 @@ pipeline {
         stage('Cleanup Docker Containers and Images') {
             steps {
                 // Docker 컨테이너와 이미지를 정리
-                sh docker-compose -f ${DOCKER_COMPOSE_FILE} down --rmi all
+                sh "docker-compose -f ${DOCKER_COMPOSE_FILE} down --rmi all"
             }
         }
         stage('Build & Deploy') {
