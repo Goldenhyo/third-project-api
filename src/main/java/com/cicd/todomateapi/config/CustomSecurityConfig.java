@@ -39,6 +39,14 @@ public class CustomSecurityConfig {
         http.csrf(csrf -> csrf.disable());
         // JWT 체크 필터 추가
         http.addFilterBefore(new JWTCheckFilter(jwtUtil()), BasicAuthenticationFilter.class);
+        http.formLogin(login -> {
+            // 로그인 경로
+            login.loginPage("/api/login");
+            // 로그인 성공시 실행될 로직 클래스
+            login.successHandler(new CustomLoginSuccessHandler(jwtUtil()));
+            // 로그인 실패시
+            login.failureHandler(new CustomLoginFailureHandler());
+        });
         return http.build();
     }
 

@@ -29,6 +29,7 @@ public class MemberDTO extends User {
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("mid", mid);
+        map.put("name", name);
         return map;
     }
 }
