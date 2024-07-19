@@ -19,11 +19,10 @@ pipeline {
                 sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d --build"
             }
         }
-        stage('Trigger React Build') {
+        stage('Cleanup Docker Containers and Images') {
             steps {
-                script {
-                    sh "curl -X POST ${REACT_TRIGGER_URL} --user ${USERNAME}:${API_TOKEN}"
-                }
+                // Docker 컨테이너와 이미지를 정리
+                sh docker-compose -f ${DOCKER_COMPOSE_FILE} down --rmi all
             }
         }
     }
