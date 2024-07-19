@@ -16,15 +16,15 @@ public interface MemberService {
 
     String delete(Long mid);
 
-    List<String> searchFriends(String searchFriends);
+    List<String> searchFriends(Long mid, String searchFriends);
 
     Boolean friendRequest(Long bymid, String tomid);
-
-    Boolean friendAccept(Long bymid, Long tomid, Boolean tf);
 
     List<Member> getFriend(Long mid);
 
     List<Member> getFriendRequest(Long mid);
+
+    Boolean friendAccept(Long bymid, Long tomid, Boolean tf);
 
     void friendBanned(Long bymid, Long tomid);
 }

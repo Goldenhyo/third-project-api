@@ -149,9 +149,14 @@ public class MemberServiceImpl implements MemberService {
         return "success";
     }
 
-    @Override
-    public List<String> searchFriends(String searchFriends) {
-        return memberRepository.findByNameStartingWith(searchFriends);
+    @Override // 친구 찾기
+    public List<String> searchFriends(Long mid, String searchFriends) {
+        List<String> list = memberRepository.findByNameStartingWith(searchFriends);
+        Member member = memberRepository.findById(mid).orElse(null);
+        List<String> friendsList = member.getFriends().stream().map(m -> memberRepository.findById(m).orElse(null).getName()).toList();
+        list.removeIf(friendsList::contains);
+        list.removeIf(m -> m.equals(member.getName()));
+        return list;
     }
 
     @Override // 친구 요청
@@ -160,25 +165,6 @@ public class MemberServiceImpl implements MemberService {
         toMember.getRequest().add(bymid);
         memberRepository.save(toMember);
         return true;
-    }
-    @Override // 친구 요청
-    public Boolean friendAccept(Long bymid, Long tomid, Boolean tf) {
-        log.info("************* MemberServiceImpl.java / method name : friendAccept / tf : {}", tf);
-        Optional<Member> toMember = memberRepository.findById(tomid);
-        if(toMember.isPresent()){
-            Member toPresentMember = toMember.get();
-            toPresentMember.getRequest().removeIf(r -> Objects.equals(r, bymid));
-            if(tf) {
-                log.info("************* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                toPresentMember.getFriends().add(bymid);
-                Member byPresentMember = memberRepository.findById(bymid).get();
-                byPresentMember.getFriends().add(tomid);
-                memberRepository.save(byPresentMember);
-            }
-            memberRepository.save(toPresentMember);
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -193,10 +179,36 @@ public class MemberServiceImpl implements MemberService {
         return longArr.stream().map(a -> memberRepository.findById(a).orElse(null)).toList();
     }
 
+    @Override // 친구 요청
+    public Boolean friendAccept(Long bymid, Long tomid, Boolean tf) { // 요청한 계정 주인 : by
+        log.info("************* MemberServiceImpl.java / method name : friendAccept / tf : {}", tf);
+        log.info("************* MemberServiceImpl.java / method name : friendAccept / bymid : {}", bymid);
+        Optional<Member> byMember = memberRepository.findById(bymid);
+        if(byMember.isPresent()){
+            Member byPresentMember = byMember.get();
+            byPresentMember.getRequest().removeIf(r -> Objects.equals(r, tomid));
+            if(tf) {
+                byPresentMember.getFriends().add(tomid);
+                Member toPresentMember = memberRepository.findById(tomid).get();
+                toPresentMember.getFriends().add(bymid);
+                memberRepository.save(toPresentMember);
+            }
+            memberRepository.save(byPresentMember);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void friendBanned(Long bymid, Long tomid) {
-        Member member = memberRepository.findById(bymid).orElse(null);
-        member.getFriends().removeIf(m -> m.equals(tomid));
+        Member byMember = memberRepository.findById(bymid).orElse(null);
+        byMember.getFriends().removeIf(m -> m.equals(tomid));
+
+        Member toMember = memberRepository.findById(tomid).orElse(null);
+        toMember.getFriends().removeIf(m -> m.equals(bymid));
+
+        memberRepository.save(toMember);
+        memberRepository.save(byMember);
     }
 
 }

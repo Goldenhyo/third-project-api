@@ -101,9 +101,9 @@ public class MemberController {
     }
 
     // 친구 ========================================================================
-    @GetMapping("/searchfriends/{startWith}") // 친구 찾기
-    public Map<String, List<String>> searchFriends(@PathVariable String startWith){
-        List<String> result = memberService.searchFriends(startWith);
+    @GetMapping("/searchfriends/{mid}/{startWith}") // 친구 찾기
+    public Map<String, List<String>> searchFriends(@PathVariable Long mid, @PathVariable String startWith){
+        List<String> result = memberService.searchFriends(mid, startWith);
         return Map.of("RESULT", result);
     }
 
@@ -113,7 +113,7 @@ public class MemberController {
         return Map.of("RESULT", friendList);
     }
 
-    @GetMapping("/getfriendrequest/{mid}") // 친구 목록
+    @GetMapping("/getfriendrequest/{mid}") // 친구 요청 목록
     public Map<String, List<Member>> getFriendRequest(@PathVariable Long mid){
         log.info("************* MemberController.java / method name : getFriendRequest / mid : {}", mid);
         List<Member> friendList = memberService.getFriendRequest(mid);
