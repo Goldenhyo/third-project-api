@@ -21,7 +21,9 @@ public class Member {
     private String password;
     private String name;
     @ElementCollection
+    @Builder.Default
     private List<Long> friends = new ArrayList<>();
     @ElementCollection
+    @Builder.Default
     private List<Long> request = new ArrayList<>();
 }
