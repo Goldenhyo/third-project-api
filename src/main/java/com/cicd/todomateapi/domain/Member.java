@@ -3,6 +3,8 @@ package com.cicd.todomateapi.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -18,4 +20,8 @@ public class Member {
     private String email;
     private String password;
     private String name;
+    @ElementCollection
+    private List<Long> friends = new ArrayList<>();
+    @ElementCollection
+    private List<Long> request = new ArrayList<>();
 }

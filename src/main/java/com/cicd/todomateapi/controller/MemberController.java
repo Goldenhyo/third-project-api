@@ -1,5 +1,6 @@
 package com.cicd.todomateapi.controller;
 
+import com.cicd.todomateapi.domain.Member;
 import com.cicd.todomateapi.dto.MemberDTO;
 import com.cicd.todomateapi.dto.MemberForm;
 import com.cicd.todomateapi.service.MemberService;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -96,6 +98,44 @@ public class MemberController {
     public String delete(@PathVariable("mid") Long mid) {
         String result = memberService.delete(mid);
         return result;
+    }
+
+    // 친구 ========================================================================
+    @GetMapping("/searchfriends/{startWith}") // 친구 찾기
+    public Map<String, List<String>> searchFriends(@PathVariable String startWith){
+        List<String> result = memberService.searchFriends(startWith);
+        return Map.of("RESULT", result);
+    }
+
+    @GetMapping("/getfriend/{mid}") // 친구 목록
+    public Map<String, List<Member>> getFriend(@PathVariable Long mid){
+        List<Member> friendList = memberService.getFriend(mid);
+        return Map.of("RESULT", friendList);
+    }
+
+    @GetMapping("/getfriendrequest/{mid}") // 친구 목록
+    public Map<String, List<Member>> getFriendRequest(@PathVariable Long mid){
+        log.info("************* MemberController.java / method name : getFriendRequest / mid : {}", mid);
+        List<Member> friendList = memberService.getFriendRequest(mid);
+        return Map.of("RESULT", friendList);
+    }
+
+    @PostMapping("/friendrequest/{bymid}/{tomid}") // 친구 요청
+    public Map<String, Boolean> friendRequest(@PathVariable Long bymid, @PathVariable String tomid){
+        Boolean result = memberService.friendRequest(bymid, tomid);
+        return Map.of("RESULT", result);
+    }
+
+    @PostMapping("/friendAccept/{bymid}/{tomid}/{tf}") // 친구 수락
+    public Map<String, Boolean> friendAccept(@PathVariable Long bymid, @PathVariable Long tomid, @PathVariable Boolean tf){
+        Boolean result = memberService.friendAccept(bymid, tomid, tf);
+        return Map.of("RESULT", result);
+    }
+    
+    @PutMapping("/friendBanned/{bymid}/{tomid}") // 친구 삭제
+    public Map<String, String> friendBanned(@PathVariable Long bymid, @PathVariable Long tomid) {
+        memberService.friendBanned(bymid, tomid);
+        return Map.of("RESULT", "SUCCESS");
     }
 
 }

@@ -21,6 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -146,4 +148,55 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.deleteById(mid);
         return "success";
     }
+
+    @Override
+    public List<String> searchFriends(String searchFriends) {
+        return memberRepository.findByNameStartingWith(searchFriends);
+    }
+
+    @Override // 친구 요청
+    public Boolean friendRequest(Long bymid, String tomid) {
+        Member toMember = memberRepository.findMemberByName(tomid);
+        toMember.getRequest().add(bymid);
+        memberRepository.save(toMember);
+        return true;
+    }
+    @Override // 친구 요청
+    public Boolean friendAccept(Long bymid, Long tomid, Boolean tf) {
+        log.info("************* MemberServiceImpl.java / method name : friendAccept / tf : {}", tf);
+        Optional<Member> toMember = memberRepository.findById(tomid);
+        if(toMember.isPresent()){
+            Member toPresentMember = toMember.get();
+            toPresentMember.getRequest().removeIf(r -> Objects.equals(r, bymid));
+            if(tf) {
+                log.info("************* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                toPresentMember.getFriends().add(bymid);
+                Member byPresentMember = memberRepository.findById(bymid).get();
+                byPresentMember.getFriends().add(tomid);
+                memberRepository.save(byPresentMember);
+            }
+            memberRepository.save(toPresentMember);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Member> getFriend(Long mid) {
+        List<Long> longArr = memberRepository.findById(mid).get().getFriends();
+        return longArr.stream().map(a -> memberRepository.findById(a).orElse(null)).toList();
+    }
+
+    @Override
+    public List<Member> getFriendRequest(Long mid) {
+        List<Long> longArr = memberRepository.findById(mid).get().getRequest();
+        return longArr.stream().map(a -> memberRepository.findById(a).orElse(null)).toList();
+    }
+
+    @Override
+    public void friendBanned(Long bymid, Long tomid) {
+        Member member = memberRepository.findById(bymid).orElse(null);
+        member.getFriends().removeIf(m -> m.equals(tomid));
+    }
+
 }
