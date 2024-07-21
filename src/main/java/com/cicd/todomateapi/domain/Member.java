@@ -26,4 +26,9 @@ public class Member {
     @ElementCollection
     @Builder.Default
     private List<Long> request = new ArrayList<>();
+
+    public Member updateName(String name) {
+        this.name = name;
+        return this;
+    }
 }
