@@ -3,6 +3,7 @@ package com.cicd.todomateapi.service;
 import com.cicd.todomateapi.domain.Member;
 import com.cicd.todomateapi.dto.MemberDTO;
 import com.cicd.todomateapi.dto.MemberForm;
+import com.cicd.todomateapi.dto.MemberResponseDTO;
 import com.cicd.todomateapi.repository.MemberRepository;
 import com.cicd.todomateapi.repository.RoutineRepository;
 import com.cicd.todomateapi.repository.TaskRepository;
@@ -209,6 +210,12 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.save(toMember);
         memberRepository.save(byMember);
+    }
+
+    @Override
+    public MemberResponseDTO getName(Long mid) {
+        Member member = memberRepository.findById(mid).orElse(null);
+        return new MemberResponseDTO(member);
     }
 
 }

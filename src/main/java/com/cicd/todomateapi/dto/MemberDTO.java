@@ -15,7 +15,7 @@ public class MemberDTO extends User {
     private String name;
     private Long mid;
 
-    public MemberDTO(String email, String password,  String name, Long mid) {
+    public MemberDTO(String email, String password, String name, Long mid) {
         super(email, password, new ArrayList<>());
         this.email = email;
         this.password = password;

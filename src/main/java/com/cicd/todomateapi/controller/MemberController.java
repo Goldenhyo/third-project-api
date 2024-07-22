@@ -3,6 +3,7 @@ package com.cicd.todomateapi.controller;
 import com.cicd.todomateapi.domain.Member;
 import com.cicd.todomateapi.dto.MemberDTO;
 import com.cicd.todomateapi.dto.MemberForm;
+import com.cicd.todomateapi.dto.MemberResponseDTO;
 import com.cicd.todomateapi.service.MemberService;
 import com.cicd.todomateapi.util.CustomJWTException;
 import com.cicd.todomateapi.util.JWTUtil;
@@ -136,6 +137,12 @@ public class MemberController {
     public Map<String, String> friendBanned(@PathVariable Long bymid, @PathVariable Long tomid) {
         memberService.friendBanned(bymid, tomid);
         return Map.of("RESULT", "SUCCESS");
+    }
+
+    @GetMapping("/getname/{mid}")
+    public Map<String, MemberResponseDTO> getName(@PathVariable Long mid){
+        MemberResponseDTO memberResponseDTO = memberService.getName(mid);
+        return Map.of("RESULT", memberResponseDTO);
     }
 
 }

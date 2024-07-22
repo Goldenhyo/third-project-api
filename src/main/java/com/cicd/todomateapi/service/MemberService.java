@@ -3,6 +3,7 @@ package com.cicd.todomateapi.service;
 import com.cicd.todomateapi.domain.Member;
 import com.cicd.todomateapi.dto.MemberDTO;
 import com.cicd.todomateapi.dto.MemberForm;
+import com.cicd.todomateapi.dto.MemberResponseDTO;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface MemberService {
     Boolean friendAccept(Long bymid, Long tomid, Boolean tf);
 
     void friendBanned(Long bymid, Long tomid);
+
+    MemberResponseDTO getName(Long mid);
 }
