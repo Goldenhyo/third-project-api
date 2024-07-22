@@ -150,6 +150,23 @@ public class MemberServiceImpl implements MemberService {
         return "success";
     }
 
+    @Override
+    public Boolean nameIsDuplicate(String name) {
+        Member member = memberRepository.findMemberByName(name);
+        if (member == null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String nameAdd(String name, Long mid) {
+        Optional<Member> member = memberRepository.findById(mid);
+        Member updateMember = member.get().updateName(name);
+        memberRepository.save(updateMember);
+        return "success";
+    }
+
     @Override // 친구 찾기
     public List<String> searchFriends(Long mid, String searchFriends) {
         List<String> list = memberRepository.findByNameStartingWith(searchFriends);

@@ -17,6 +17,10 @@ public interface MemberService {
 
     String delete(Long mid);
 
+    Boolean nameIsDuplicate(String name);
+
+    String nameAdd(String name, Long mid);
+
     List<String> searchFriends(Long mid, String searchFriends);
 
     Boolean friendRequest(Long bymid, String tomid);

@@ -85,7 +85,7 @@ public class MemberController {
     }
 
     // ===============================================================================
-    @PostMapping("")
+    @PostMapping("") // 회원가입
     public String register(@RequestBody MemberForm memberForm) {
         log.info("********** MemberController register memberForm:{}", memberForm);
         String result = memberService.save(memberForm);
@@ -95,9 +95,21 @@ public class MemberController {
         return result;
     }
 
-    @DeleteMapping("/{mid}")
+    @DeleteMapping("/{mid}") // 회원 탈퇴
     public String delete(@PathVariable("mid") Long mid) {
         String result = memberService.delete(mid);
+        return result;
+    }
+
+    @GetMapping("/name")
+    public Boolean nameIsDuplicate(String name) {
+        return memberService.nameIsDuplicate(name);
+    }
+
+    @PutMapping("/{name}/{mid}")
+    public String nameAdd(@PathVariable("name") String name, @PathVariable("mid") Long mid) {
+        log.info("************nameAdd name:{}, mid:{}", name, mid);
+        String result = memberService.nameAdd(name, mid);
         return result;
     }
 
